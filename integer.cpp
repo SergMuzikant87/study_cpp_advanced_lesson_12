@@ -94,7 +94,7 @@ Integer::~Integer(void)
     delete [] __bytes;
 }
 
-Integer::Integer(const Integer & original) : Integer()
+Integer::Integer(const Integer & original)
 {
     if(this == &original)
     {
@@ -114,7 +114,7 @@ Integer::Integer(const Integer & original) : Integer()
     }
 }
 
-Integer::Integer(Integer && original) : Integer()
+Integer::Integer(Integer && original)
 {
     if(this == &original)
     {
