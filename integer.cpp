@@ -114,7 +114,7 @@ Integer::Integer(const Integer & original)
     }
 }
 
-Integer::Integer(Integer && original)
+Integer::Integer(Integer && original) noexcept
 {
     if(this == &original)
     {
@@ -154,13 +154,14 @@ Integer & Integer::operator= (const Integer & original)
     return *this;
 }
 
-Integer & Integer::operator= (Integer && original)
+Integer & Integer::operator= (Integer && original) noexcept
 {
     if(this == &original)
     {
         return *this;
     }
 
+    delete __bytes;
     __size = original.__size;
     __bytes = original.__bytes;
     original.__size = 0;
@@ -199,11 +200,11 @@ Integer Integer::operator+ (const Integer & integer_2)
     }
 
     if
-        (
-            ((operand_1 & (1 << SIGN_BIT_NUM)) && (operand_2 & (1 << SIGN_BIT_NUM)) && (!(result.__bytes[result.__size - 1] & (1 << SIGN_BIT_NUM))))
+    (
+        ((operand_1 & (1 << SIGN_BIT_NUM)) && (operand_2 & (1 << SIGN_BIT_NUM)) && (!(result.__bytes[result.__size - 1] & (1 << SIGN_BIT_NUM))))
             ||
-            ((!(operand_1 & (1 << SIGN_BIT_NUM))) && (!(operand_2 & (1 << SIGN_BIT_NUM))) && (result.__bytes[result.__size - 1] & (1 << SIGN_BIT_NUM)))
-            )
+        ((!(operand_1 & (1 << SIGN_BIT_NUM))) && (!(operand_2 & (1 << SIGN_BIT_NUM))) && (result.__bytes[result.__size - 1] & (1 << SIGN_BIT_NUM)))
+    )
     {
         uint8_t high_byte = ((uint8_t)(result.__bytes[result.__size - 1] >> SIGN_BIT_NUM)) - ((uint8_t)1);
         result.high_byte_push(high_byte);

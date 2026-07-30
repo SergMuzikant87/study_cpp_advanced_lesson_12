@@ -12,10 +12,10 @@ public:
     Integer(const std::string & text);
     ~Integer(void);
     Integer(const Integer & original);
-    Integer(Integer && original);
+    Integer(Integer && original) noexcept;
 
     Integer & operator= (const Integer & original);
-    Integer & operator= (Integer && original);
+    Integer & operator= (Integer && original) noexcept;
 
     Integer operator+ (const Integer & integer_2);
     Integer operator* (const Integer & integer_2);
